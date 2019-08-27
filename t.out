@@ -1,0 +1,966 @@
+% lp testfile
+request id is iw2-156 (1 file)
+% menu 3
+
+        Menu: Disk already mounted...
+% ls
+firstin    in         t*         testfile
+% rm testfile
+% t
+T could not allocate two heaps of 4096000 bytes.
+Please retry with smaller heaps by using the -h switch.
+% t -h 2700000
+2699968 bytes per heap, 131071 bytes reserved
+T (Beta) 3.1 (4) MC68000/UNIX  Copyright (C) 1988 Yale University
+T Top level
+> (load 'firstin)
+
+** Error: (OPEN '#[Filename () () FIRSTIN T] 'IN) failed
+**        Type (RET) or (RET filespec) to retry.
+>> (ret 'firstin)
+
+;Loading  firstin into USER-ENV
+INITBOARD SB RETROW RETCOL RETE RETW RETS RETN RETSE RETNW RETNE RETSW
+RETPIECE REPLACE RETBEF OPPONENT TAKELINE? LEGALMOVE? PUTPIECE FLIPLINE
+MOVE INITSPACESLIST #{Procedure 0 INITSPACESLIST}
+> (load 'in)
+
+** Error: (OPEN '#[Filename () () IN T] 'IN) failed
+**        Type (RET) or (RET filespec) to retry.
+>> (ret 'in)
+
+;Loading  in into USER-ENV
+ASKCOLOR DOMOVE COMPMOVE NOMOVESLEFT? HASMOVE? INITALL MAIN AREALIST
+SHOWWINNER QUERYUSER HUMANMOVE QUANTITY RETMOVES RETBESTMOVE SEF WEIGHTSLIST
+AREAONE AREATWO AREATHREE AREAFOUR AREAFIVE AREASIX PUTWEIGHT UPDATEWTS
+#{Procedure 1 UPDATEWTS}
+> (initall)
+[Binding TE] [Binding SL] "Reset weightslist? (y/n) "y
+[Binding ANS]
+[Binding WL] ((1 1 1 1 1 1 1 1) (1 1 1 1 1 1 1 1) (1 1 1 1 1 1 1 1)
+(1 1 1 1 1 1 1 1) (1 1 1 1 1 1 1 1) (1 1 1 1 1 1 1 1) (1 1 1 1 1 1
+1 1) (1 1 1 1 1 1 1 1))
+> (sb wl)
+(1 1 1 1 1 1 1 1)
+(1 1 1 1 1 1 1 1)
+(1 1 1 1 1 1 1 1)
+(1 1 1 1 1 1 1 1)
+(1 1 1 1 1 1 1 1)
+(1 1 1 1 1 1 1 1)
+(1 1 1 1 1 1 1 1)
+(1 1 1 1 1 1 1 1)
+#T
+> (queryuser)
+Relevant areas of board:
+(1 2 3 3 3 3 2 1)
+(2 4 5 5 5 5 4 2)
+(3 5 6 6 6 6 5 3)
+(3 5 6 - - 6 5 3)
+(3 5 6 - - 6 5 3)
+(3 5 6 6 6 6 5 3)
+(2 4 5 5 5 5 4 2)
+(1 2 3 3 3 3 2 1)
+Please enter a number (1-6) corresponding to an
+area of the board I should consider more vital
+1
+[Binding AREANUM]
+Please enter degree to which this area is vital
+(1-10), 10 being the largest degree.
+10
+[Binding DEGREE] "Is that all? (y/n)"n
+[Binding ANS2] Relevant areas of board:
+(1 2 3 3 3 3 2 1)
+(2 4 5 5 5 5 4 2)
+(3 5 6 6 6 6 5 3)
+(3 5 6 - - 6 5 3)
+(3 5 6 - - 6 5 3)
+(3 5 6 6 6 6 5 3)
+(2 4 5 5 5 5 4 2)
+(1 2 3 3 3 3 2 1)
+Please enter a number (1-6) corresponding to an
+3area of the board I should consider more vital
+
+
+Please enter degree to which this area is vital
+(1-10), 10 being the largest degree.
+8
+"Is that all? (y/n)"n
+Relevant areas of board:
+(1 2 3 3 3 3 2 1)
+(2 4 5 5 5 5 4 2)
+(3 5 6 6 6 6 5 3)
+(3 5 6 - - 6 5 3)
+(3 5 6 - - 6 5 3)
+(3 5 6 6 6 6 5 3)
+(2 4 5 5 5 5 4 2)
+(1 2 3 3 3 3 2 1)
+Please enter a number (1-6) corresponding to an
+area of the board I should consider more vital
+6
+
+Please enter degree to which this area is vital
+(1-10), 10 being the largest degree.
+6
+"Is that all? (y/n)"n
+Relevant areas of board:
+(1 2 3 3 3 3 2 1)
+(2 4 5 5 5 5 4 2)
+(3 5 6 6 6 6 5 3)
+(3 5 6 - - 6 5 3)
+(3 5 6 - - 6 5 3)
+(3 5 6 6 6 6 5 3)
+(2 4 5 5 5 5 4 2)
+(1 2 3 3 3 3 2 1)
+Please enter a number (1-6) corresponding to an
+area of the board I should consider more vital
+5
+
+Please enter degree to which this area is vital
+(1-10), 10 being the largest degree.
+4
+"Is that all? (y/n)"n
+Relevant areas of board:
+(1 2 3 3 3 3 2 1)
+(2 4 5 5 5 5 4 2)
+(3 5 6 6 6 6 5 3)
+(3 5 6 - - 6 5 3)
+(3 5 6 - - 6 5 3)
+(3 5 6 6 6 6 5 3)
+(2 4 5 5 5 5 4 2)
+(1 2 3 3 3 3 2 1)
+Please enter a number (1-6) corresponding to an
+area of the board I should consider more vital
+4
+
+Please enter degree to which this area is vital
+(1-10), 10 being the largest degree.
+2
+"Is that all? (y/n)"y
+"Reset weightslist? (y/n) "n
+WHITE OR BLACK ?  (w/b)
+w
+[Binding HUMAN] (- - - - - - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - B W - - -)
+(- - - W B - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+"ENTER ROW  "3
+[Binding XINPUT] "ENTER COLUMN  "4
+[Binding YINPUT]
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - W - - - -)
+(- - - W W - - -)
+(- - - W B - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+[Binding XY]
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - W B - - -)
+(- - - W B - - -)
+(- - - W B - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+"ENTER ROW  "4
+"ENTER COLUMN  "6
+
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - W B - - -)
+(- - - W W W - -)
+(- - - W B - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+;Beginning GC
+;Beginning GC
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13735 objects copied
+;Space Remaining: 610604 left out of 674992 (90% free)
+;GC done
+
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13731 objects copied
+;Space Remaining: 610626 left out of 674992 (90% free)
+;GC done
+;Beginning GC
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13730 objects copied
+;Space Remaining: 610630 left out of 674992 (90% free)
+;GC done
+;Beginning GC
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13729 objects copied
+;Space Remaining: 610634 left out of 674992 (90% free)
+;GC done
+;Beginning GC
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13728 objects copied
+;Space Remaining: 610638 left out of 674992 (90% free)
+;GC done
+
+(- - - - - - - -)
+(- - - - - - - -)
+(- - B B B - - -)
+(- - - B W W - -)
+(- - - W B - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+"ENTER ROW  "6
+"ENTER COLUMN  "5
+
+(- - - - - - - -)
+(- - - - - - - -)
+(- - B B B - - -)
+(- - - B W W - -)
+(- - - W W - - -)
+(- - - - W - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+
+(- - - - - - - -)
+(- - - - - - - -)
+(- - B B B - - -)
+(- - - B W W - -)
+(- - - W B - - -)
+(- - - - W B - -)
+(- - - - - - - -)
+(- - - - - - - -)
+"ENTER ROW  "2
+"ENTER COLUMN  "4
+
+(- - - - - - - -)
+(- - - W - - - -)
+(- - B W W - - -)
+(- - - W W W - -)
+(- - - W B - - -)
+(- - - - W B - -)
+(- - - - - - - -)
+(- - - - - - - -)
+;Beginning GC
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13711 objects copied
+;Space Remaining: 610670 left out of 674992 (90% free)
+;GC done
+
+(- - - - B - - -)
+(- - - B - - - -)
+(- - B W W - - -)
+(- - - W W W - -)
+(- - - W B - - -)
+(- - - - W B - -)
+(- - - - - - - -)
+(- - - - - - - -)
+"ENTER ROW  "7
+"ENTER COLUMN  "7
+
+(- - - - B - - -)
+(- - - B - - - -)
+(- - B W W - - -)
+(- - - W W W - -)
+(- - - W W - - -)
+(- - - - W W - -)
+(- - - - - - W -)
+(- - - - - - - -)
+
+(- - - - B - - -)
+(- - - B - - - -)
+(- - B W W - - -)
+(- - - B W W - -)
+(- - - W B - - -)
+(- - - - W B - -)
+(- - - - - - B -)
+(- - - - - - - B)
+"ENTER ROW  "5
+"ENTER COLUMN  "6
+
+(- - - - B - - -)
+(- - - B - - - -)
+(- - B W W - - -)
+(- - - B W W - -)
+(- - - W W W - -)
+(- - - - W B - -)
+(- - - - - - B -)
+(- - - - - - - B)
+;Beginning GC
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13728 objects copied
+;Space Remaining: 610634 left out of 674992 (90% free)
+;GC done
+
+(- - - - B - - -)
+(- - - B - - - -)
+(- - B W W - - -)
+(- - - B W W - -)
+(- - - B W W - -)
+(- - - B B B - -)
+(- - - - - - B -)
+(- - - - - - - B)
+"ENTER ROW  "7
+"ENTER COLUMN  "4
+
+(- - - - B - - -)
+(- - - B - - - -)
+(- - B W W - - -)
+(- - - W W W - -)
+(- - - W W W - -)
+(- - - W W B - -)
+(- - - W - - B -)
+(- - - - - - - B)
+
+(- - - - B - - -)
+(- - - B - - - -)
+(- - B B W - - -)
+(- - - B W W - -)
+(- - - B W W - -)
+(- - - B W B - -)
+(- - - B - - B -)
+(- - - B - - - B)
+"ENTER ROW  "3
+"ENTER COLUMN  "2
+
+(- - - - B - - -)
+(- - - B - - - -)
+(- W W W W - - -)
+(- - - B W W - -)
+(- - - B W W - -)
+(- - - B W B - -)
+(- - - B - - B -)
+(- - - B - - - B)
+;Beginning GC
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13731 objects copied
+;Space Remaining: 610628 left out of 674992 (90% free)
+;GC done
+
+(- - - - B - - -)
+(- - - B - - - -)
+(- W W W W B - -)
+(- - - B B B - -)
+(- - - B W B - -)
+(- - - B W B - -)
+(- - - B - - B -)
+(- - - B - - - B)
+"ENTER ROW  "6
+"ENTER COLUMN  "7
+
+(- - - - B - - -)
+(- - - B - - - -)
+(- W W W W B - -)
+(- - - B W B - -)
+(- - - B W W - -)
+(- - - B W W W -)
+(- - - B - - B -)
+(- - - B - - - B)
+
+(- - - - B - - -)
+(- - - B - - - -)
+(- W W W W B - -)
+(- - - B W B - -)
+(- - - B W W - -)
+(- - - B B B B B)
+(- - - B - - B -)
+(- - - B - - - B)
+"ENTER ROW  "2
+"ENTER COLUMN  "6
+
+(- - - - B - - -)
+(- - - B - W - -)
+(- W W W W W - -)
+(- - - B W W - -)
+(- - - B W W - -)
+(- - - B B B B B)
+(- - - B - - B -)
+(- - - B - - - B)
+
+(- - - - B B - -)
+(- - - B - B - -)
+(- W W W W B - -)
+(- - - B W B - -)
+(- - - B W B - -)
+(- - - B B B B B)
+(- - - B - - B -)
+(- - - B - - - B)
+;Beginning GC
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13693 objects copied
+;Space Remaining: 610710 left out of 674992 (90% free)
+;GC done
+"ENTER ROW  "5
+"ENTER COLUMN  "7
+
+(- - - - B B - -)
+(- - - B - B - -)
+(- W W W W B - -)
+(- - - B W W - -)
+(- - - B W W W -)
+(- - - B B B B B)
+(- - - B - - B -)
+(- - - B - - - B)
+
+(- - - - B B - -)
+(- - - B - B - -)
+(B B B B B B - -)
+(- - - B W W - -)
+(- - - B W W W -)
+(- - - B B B B B)
+(- - - B - - B -)
+(- - - B - - - B)
+"ENTER ROW  "8
+"ENTER COLUMN  "7
+
+(- - - - B B - -)
+(- - - B - B - -)
+(B B B B B B - -)
+(- - - B W W - -)
+(- - - B W W W -)
+(- - - B B B W B)
+(- - - B - - W -)
+(- - - B - - W B)
+
+(- - - - B B - -)
+(- - - B - B - -)
+(B B B B B B - -)
+(- - - B W W - -)
+(- - - B W W W -)
+(- - - B B B W B)
+(- - - B - - B -)
+(- - - B - B B B)
+"ENTER ROW  "6
+"ENTER COLUMN  "3
+
+(- - - - B B - -)
+(- - - B - B - -)
+(B B B B B B - -)
+(- - - B W W - -)
+(- - - W W W W -)
+(- - W W W W W B)
+(- - - B - - B -)
+(- - - B - B B B)
+;Beginning GC
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13736 objects copied
+;Space Remaining: 610622 left out of 674992 (90% free)
+;GC done
+
+(- - - - B B - -)
+(- - - B - B - -)
+(B B B B B B - -)
+(- - - B W B - -)
+(- - - W W B W -)
+(- - W W W B W B)
+(- - - B - B B -)
+(- - - B - B B B)
+"ENTER ROW  "1
+"ENTER COLUMN  "4
+
+(- - - W B B - -)
+(- - - W - B - -)
+(B B B W B B - -)
+(- - - W W B - -)
+(- - - W W B W -)
+(- - W W W B W B)
+(- - - B - B B -)
+(- - - B - B B B)
+
+(- - B B B B - -)
+(- - - B - B - -)
+(B B B W B B - -)
+(- - - W W B - -)
+(- - - W W B W -)
+(- - W W W B W B)
+(- - - B - B B -)
+(- - - B - B B B)
+"ENTER ROW  "2
+"ENTER COLUMN  "5
+
+(- - B B B B - -)
+(- - - B W B - -)
+(B B B W W B - -)
+(- - - W W B - -)
+(- - - W W B W -)
+(- - W W W B W B)
+(- - - B - B B -)
+(- - - B - B B B)
+
+(- - B B B B - -)
+(- - - B W B - -)
+(B B B W W B - -)
+(- - - W W B - -)
+(- - - W W B B B)
+(- - W W W B B B)
+(- - - B - B B -)
+(- - - B - B B B)
+"ENTER ROW  "3
+"ENTER COLUMN  "7
+
+(- - B B B B - -)
+(- - - B W B - -)
+(B B B W W W W -)
+(- - - W W W - -)
+(- - - W W B B B)
+(- - W W W B B B)
+(- - - B - B B -)
+(- - - B - B B B)
+;Beginning GC
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13740 objects copied
+;Space Remaining: 610612 left out of 674992 (90% free)
+;GC done
+
+(- - B B B B - -)
+(- - - B W B - -)
+(B B B B B B B B)
+(- - - W W W - -)
+(- - - W W B B B)
+(- - W W W B B B)
+(- - - B - B B -)
+(- - - B - B B B)
+"ENTER ROW  "2
+"ENTER COLUMN  "3
+
+(- - B B B B - -)
+(- - W W W B - -)
+(B B B W B B B B)
+(- - - W W W - -)
+(- - - W W B B B)
+(- - W W W B B B)
+(- - - B - B B -)
+(- - - B - B B B)
+
+(- - B B B B - -)
+(- - W W W B - -)
+(B B B W B B B B)
+(- - - B W W - -)
+(- - B B B B B B)
+(- - W W W B B B)
+(- - - B - B B -)
+(- - - B - B B B)
+"ENTER ROW  "4
+"ENTER COLUMN  "3
+
+(- - B B B B - -)
+(- - W W W B - -)
+(B B W W B B B B)
+(- - W W W W - -)
+(- - W W B B B B)
+(- - W W W B B B)
+(- - - B - B B -)
+(- - - B - B B B)
+
+(- - B B B B - -)
+(- - W W W B - -)
+(B B W W B B B B)
+(- - W W W W - -)
+(- - W W B B B B)
+(- - W W B B B B)
+(- - - B B B B -)
+(- - - B - B B B)
+"ENTER ROW  "8
+"ENTER COLUMN  "5
+
+(- - B B B B - -)
+(- - W W W B - -)
+(B B W W B B B B)
+(- - W W W W - -)
+(- - W W W B B B)
+(- - W W W B B B)
+(- - - W W B B -)
+(- - - B W B B B)
+
+(- - B B B B - -)
+(- - W W W B - -)
+(B B W W B B B B)
+(- - W W W W - -)
+(- - W W W B B B)
+(- - W W B B B B)
+(- - - B W B B -)
+(- - B B W B B B)
+"ENTER ROW  "7
+"ENTER COLUMN  "8
+
+(- - B B B B - -)
+(- - W W W B - -)
+(B B W W B B B B)
+(- - W W W W - -)
+(- - W W W W B B)
+(- - W W B B W B)
+(- - - B W W W W)
+(- - B B W B B B)
+
+(- - B B B B - -)
+(- - B W W B - -)
+(B B B W B B B B)
+(- - B W W B - -)
+(- - B W B W B B)
+(- - B B B B W B)
+(- - B B W W W W)
+(- - B B W B B B)
+;Beginning GC
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13661 objects copied
+;Space Remaining: 610772 left out of 674992 (90% free)
+;GC done
+"ENTER ROW  "4
+"ENTER COLUMN  "8
+
+(- - B B B B - -)
+(- - B W W B - -)
+(B B B W B B B B)
+(- - B W W B - W)
+(- - B W B W W W)
+(- - B B B W W W)
+(- - B B W W W W)
+(- - B B W B B B)
+
+(- - B B B B - -)
+(- - B W W B - -)
+(B B B W B B B B)
+(- - B W W B B W)
+(- - B W B B B W)
+(- - B B B W B W)
+(- - B B W W B W)
+(- - B B W B B B)
+"ENTER ROW  "1
+"ENTER COLUMN  "2
+
+(- W B B B B - -)
+(- - W W W B - -)
+(B B B W B B B B)
+(- - B W W B B W)
+(- - B W B B B W)
+(- - B B B W B W)
+(- - B B W W B W)
+(- - B B W B B B)
+
+(B B B B B B - -)
+(- - W W W B - -)
+(B B B W B B B B)
+(- - B W W B B W)
+(- - B W B B B W)
+(- - B B B W B W)
+(- - B B W W B W)
+(- - B B W B B B)
+"ENTER ROW  "6
+"ENTER COLUMN  "2
+
+(B B B B B B - -)
+(- - W W W B - -)
+(B B B W B B B B)
+(- - B W W B B W)
+(- - W W B B B W)
+(- W W W W W B W)
+(- - B B W W B W)
+(- - B B W B B B)
+
+(B B B B B B - -)
+(- - W W W B - -)
+(B B B W B B B B)
+(- - B W W B B W)
+(- - W W B B B W)
+(B B B B B B B W)
+(- - B B W W B W)
+(- - B B W B B B)
+"ENTER ROW  "7
+"ENTER COLUMN  "2
+
+(B B B B B B - -)
+(- - W W W B - -)
+(B B B W B B B B)
+(- - B W W B B W)
+(- - W W B B B W)
+(B B W B B B B W)
+(- W W W W W B W)
+(- - B B W B B B)
+
+(B B B B B B - -)
+(- - W W W B - -)
+(B B B W B B B B)
+(- - B W B B B W)
+(- - W B B B B W)
+(B B B B B B B W)
+(- B W W W W B W)
+(B - B B W B B B)
+"ENTER ROW  "2
+"ENTER COLUMN  "1
+
+(B B B B B B - -)
+(W - W W W B - -)
+(B W B W B B B B)
+(- - W W B B B W)
+(- - W W B B B W)
+(B B B B W B B W)
+(- B W W W W B W)
+(B - B B W B B B)
+
+(B B B B B B - -)
+(W - B W W B - -)
+(B B B W B B B B)
+(B - W W B B B W)
+(- - W W B B B W)
+(B B B B W B B W)
+(- B W W W W B W)
+(B - B B W B B B)
+"ENTER ROW  "8
+"ENTER COLUMN  "2
+
+(B B B B B B - -)
+(W - B W W B - -)
+(B B B W B B B B)
+(B - W W B B B W)
+(- - W W B B B W)
+(B B B B W B B W)
+(- B W W W W B W)
+(B W W W W B B B)
+;Beginning GC
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13649 objects copied
+;Space Remaining: 610794 left out of 674992 (90% free)
+;GC done
+
+(B B B B B B - -)
+(W - B W B B - -)
+(B B B B B B B B)
+(B - B W B B B W)
+(- B B B B B B W)
+(B B B B W B B W)
+(- B W W W W B W)
+(B W W W W B B B)
+"ENTER ROW  "4
+"ENTER COLUMN  "2
+
+(B B B B B B - -)
+(W - B W B B - -)
+(B B W B B B B B)
+(B W W W B B B W)
+(- W W B B B B W)
+(B W B W W B B W)
+(- W W W W W B W)
+(B W W W W B B B)
+
+(B B B B B B - -)
+(W - B B B B - -)
+(B B B B B B B B)
+(B B W W B B B W)
+(B B B B B B B W)
+(B W B W W B B W)
+(- W W W W W B W)
+(B W W W W B B B)
+"ENTER ROW  "2
+"ENTER COLUMN  "2
+
+(B B B B B B - -)
+(W W B B B B - -)
+(B W W B B B B B)
+(B W W W B B B W)
+(B W B B B B B W)
+(B W B W W B B W)
+(- W W W W W B W)
+(B W W W W B B B)
+
+(B B B B B B - -)
+(W W B B B B - -)
+(B W W B B B B B)
+(B W W W B B B W)
+(B W B B B B B W)
+(B B B W W B B W)
+(B B B B B B B W)
+(B W W W W B B B)
+"ENTER ROW  "1
+"ENTER COLUMN  "7
+
+(B B B B B B W -)
+(W W B B B W - -)
+(B W W B W B B B)
+(B W W W B B B W)
+(B W B B B B B W)
+(B B B W W B B W)
+(B B B B B B B W)
+(B W W W W B B B)
+
+(B B B B B B B B)
+(W W B B B W - -)
+(B W W B W B B B)
+(B W W W B B B W)
+(B W B B B B B W)
+(B B B W W B B W)
+(B B B B B B B W)
+(B W W W W B B B)
+"ENTER ROW  "2
+"ENTER COLUMN  "8
+
+(B B B B B B B B)
+(W W B B B W - W)
+(B W W B W B W W)
+(B W W W B W B W)
+(B W B B W B B W)
+(B B B W W B B W)
+(B B B B B B B W)
+(B W W W W B B B)
+
+(B B B B B B B B)
+(W W B B B B B W)
+(B W W B W B B W)
+(B W W W B W B W)
+(B W B B W B B W)
+(B B B W W B B W)
+(B B B B B B B W)
+(B W W W W B B B)
+"Black wins!"Relevant areas of board:
+(1 2 3 3 3 3 2 1)
+(2 4 5 5 5 5 4 2)
+(3 5 6 6 6 6 5 3)
+(3 5 6 - - 6 5 3)
+(3 5 6 - - 6 5 3)
+(3 5 6 6 6 6 5 3)
+(2 4 5 5 5 5 4 2)
+(1 2 3 3 3 3 2 1)
+Please enter a number (1-6) corresponding to an
+area of the board I should consider more vital
+1
+
+Please enter degree to which this area is vital
+(1-10), 10 being the largest degree.
+8
+"Is that all? (y/n)"y
+"Reset weightslist? (y/n) "n
+WHITE OR BLACK ?  (w/b)
+b
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - B W - - -)
+(- - - W B - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - B W - - -)
+(- - - W W - - -)
+(- - - - W - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+;Beginning GC
+;*PRE-GC-AGENDA* done
+;GC-FLIP done
+;Starting to root
+; 10000 objects copied
+;IIM traced
+;Stack traced
+;*POST-GC-AGENDA* done
+; 13705 objects copied
+;Space Remaining: 610686 left out of 674992 (90% free)
+;GC done
+"ENTER ROW  "4
+"ENTER COLUMN  "6
+
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - B B B - -)
+(- - - W W - - -)
+(- - - - W - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+
+(- - - - - - - -)
+(- - - - - - - -)
+(- - - - - W - -)
+(- - - B W B - -)
+(- - - W W - - -)
+(- - - - W - - -)
+(- - - - - - - -)
+(- - - - - - - -)
+"ENTER ROW  "
+Interrupt
+>> (exit)
+%
+

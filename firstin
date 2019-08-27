@@ -1,0 +1,171 @@
+
+(define (initboard)
+   '((- - - - - - - -) (- - - - - - - -) (- - - - - - - -) (- - - B W - - -)                  (- - - W B - - -) (- - - - - - - -) (- - - - - - - -) (- - - - - - - -)))
+
+
+(define (sb brd)
+   (do ((   i '0 (+ i '1)    ))
+      ((equal? i '8))
+      (print (nth brd i) (standard-output)) 
+      (newline (standard-output))
+      ))
+
+(define (retrow row i)
+   (cond
+      ((equal? i '8) (list (list row i)))
+      (T (cons (list row i) (retrow row (increment i))  ))
+   ))
+
+(define (retcol col i)
+   (cond
+      ((equal? i '8) (list (list i col)))
+      (T (cons (list i col) (retcol col (increment i))  ))
+   ))
+
+(define (rete row col)
+   (nthcdr (retrow row '1) col))
+
+(define (retw row col) 
+   (nthcdr (reverse (retrow row '1)) (- '9 col)))
+
+(define (rets row col)
+   (nthcdr (retcol col '1) row))
+
+(define (retn row col)
+   (nthcdr (reverse (retcol col '1)) (- '9 row))) 
+   
+
+(define (retse row col)
+   (cond
+      ((or (equal? row '8) (equal? col '8)) 
+	 (list (list row col)))
+      (T (cons (list row col) (retse (increment row) (increment col)) ) )
+   ))
+
+(define (retnw row col)
+   (cond
+      ((or (equal? row '1) (equal? col '1)) 
+	 (list (list row col)))
+      (T (cons (list row col) (retnw (decrement row) (decrement col)) ) )
+   ))
+
+(define (retne row col)
+   (cond
+      ((or (equal? row '1) (equal? col '8)) 
+	 (list (list row col)))
+      (T (cons (list row col) (retne (decrement row) (increment col)) ) )
+   ))
+
+(define (retsw row col)
+   (cond
+      ((or (equal? row '8) (equal? col '1)) 
+	 (list (list row col)))
+      (T (cons (list row col) (retsw (increment row) (decrement col)) ) )
+   ))
+
+(define (retpiece row col brd)
+   (nth (nth brd (decrement row)) (decrement col)))
+
+(define (replace atom pos lis)
+   (cond
+      ((null? lis) lis)
+      ((< (length lis) pos) lis)
+      (T (append (retbef pos lis) (list atom) (nthcdr lis pos) ))
+   ))
+
+(define (retbef pos lis)
+   (cond
+      ((null? lis) lis)
+      ((> pos '1)
+	 (cons (car lis) (retbef (decrement pos) (cdr lis))) )
+      (T '())
+      ))
+
+(define (opponent player)
+   (cond
+      ((eq? player 'W) 'B)
+      (T 'W)))
+
+(define (takeline? lis brd player origlen)
+   (cond
+      ((null? lis) NIL)
+      ((eq? (retpiece (caar lis) (cadar lis) brd) '-) NIL) 
+      ((eq? (retpiece (caar lis) (cadar lis) brd) (opponent player))
+	 (takeline? (cdr lis) brd player origlen))
+      ((and (eq? (retpiece (caar lis) (cadar lis) brd) player)
+	    (< (length lis) origlen) ) T)
+      (T NIL)
+   ))
+
+(define (legalmove? row col brd player)
+   (and
+      (eq? (retpiece row col brd) '-)
+   (or
+      (takeline? (retn row col) brd player (length (retn row col)))
+      (takeline? (rets row col) brd player (length (rets row col)))
+      (takeline? (rete row col) brd player (length (rete row col)))
+      (takeline? (retw row col) brd player (length (retw row col)))
+      (takeline? (cdr (retne row col)) brd player (length (cdr (retne row col))))
+      (takeline? (cdr (retnw row col)) brd player (length (cdr (retnw row col))))
+      (takeline? (cdr (retse row col)) brd player (length (cdr (retse row col))))
+      (takeline? (cdr (retsw row col)) brd player (length (cdr (retsw row col))))
+   )
+   ))
+
+(define (putpiece row col brd player)
+   (set te (replace (replace player col (nth te (- row '1)) ) row te)))
+
+
+(define (flipline lis brd player)
+
+; CALLED IF EXISTS A LEGAL MOVE. CALLED WITH APPROPRIATE DIRECTIONS.
+; FIRST MOVE ALREADY REPLACED - ASSUMED
+   (cond
+      ((not (eq? (retpiece (caar lis) (cadar lis) brd) player)) 
+	 (flipline (cdr lis) (putpiece (caar lis) (cadar lis) brd player) player)  )
+      (T brd)
+   ))
+
+(define (move player row col brd)
+   (cond
+      ((legalmove? row col brd player)
+	 (block
+	    (putpiece row col brd player)
+ 
+	    (del! alikeq? (list row col) sl)
+          
+            (cond ( (takeline? (retn row col) brd player (length (retn row col)))  
+	       (flipline (retn row col) brd player) ))
+            (cond ((takeline? (rets row col) brd player (length (rets row col)))
+	       (flipline (rets row col) brd player) ))
+            (cond ((takeline? (rete row col) brd player (length (rete row col)))
+	       (flipline (rete row col) brd player) ))
+            (cond ((takeline? (retw row col) brd player (length (retw row col)))
+	       (flipline (retw row col) brd player) ))
+      (cond ((takeline? (cdr (retne row col)) brd player (length (cdr (retne row col))))
+	       (flipline (cdr (retne row col)) brd player) ))
+      (cond ((takeline? (cdr (retse row col)) brd player (length (cdr (retse row col))))
+	       (flipline (cdr (retse row col)) brd player) ))
+      (cond ((takeline? (cdr (retnw row col)) brd player (length (cdr (retnw row col))))
+	       (flipline (cdr (retnw row col)) brd player) ))
+      (cond ((takeline? (cdr (retsw row col)) brd player (length (cdr (retsw row col))))
+	       (flipline (cdr (retsw row col)) brd player) ))
+
+         )
+      )
+      (T (print "illegal move" (standard-output))) 
+   )
+)
+
+(define (initspaceslist)
+   (append
+      '((4 1) (4 2) (4 3) (4 6) (4 7) (4 8))
+      '((5 1) (5 2) (5 3) (5 6) (5 7) (5 8))
+      (retrow '3 '1)
+      (retrow '6 '1)
+      (retrow '2 '1)
+      (retrow '7 '1)
+      (retrow '1 '1)
+      (retrow '8 '1)))
+
+

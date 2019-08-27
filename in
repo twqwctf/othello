@@ -1,0 +1,239 @@
+(define (askcolor)
+   (block
+      (write-line (standard-output) "WHITE OR BLACK ?  (w/b) ")
+      (force-output (standard-output))
+      (read-refusing-eof (standard-input))
+   )
+)
+
+(define (domove currplayer human brd spaceslist weightslist)
+   (block
+
+      (cond
+         ((eq? currplayer human) (humanmove currplayer brd))     ;HUMANS TURN
+	 (T (compmove brd spaceslist weightslist currplayer))  ;COMPUTERS TURN
+      )
+      (newline (standard-output))
+      (sb te)
+   )
+)
+
+(define (compmove brd spaceslist weightslist player)
+   (block
+      (set xy (retbestmove weightslist (retmoves brd spaceslist player)))
+      (move player (car xy) (cadr xy) brd)
+   ))
+
+
+(define (nomovesleft? brd spaceslist)
+   (cond
+      ((>= (quantity '- brd) '10) NIL)
+      (T
+         (and
+	    (not (hasmove? brd spaceslist 'W))
+	    (not (hasmove? brd spaceslist 'B))
+         ))
+   ))
+
+(define (hasmove? brd spaceslist player)
+   (cond
+      ((null? spaceslist) NIL)
+      ((legalmove? (caar spaceslist) (cadar spaceslist) brd player) T)
+      (T (hasmove? brd (cdr spaceslist) player))
+   ))
+
+(define (initall)
+   (block
+      (set te (initboard))
+      (set sl (initspaceslist))
+      (print "Reset weightslist? (y/n) " (standard-output))
+      (force-output (standard-output))
+      (set ans (read-refusing-eof (standard-input)))
+      (cond ((eq? ans 'y) (set wl (weightslist))))
+   ))
+
+ 
+(define (main)
+   (block
+      (initall)
+      (set human (askcolor))
+      (sb te)
+      (do (  (currplayer 'W  (opponent currplayer))  )
+          ( (nomovesleft? te sl)  ; TERMINATING CONDITION  
+	    currplayer )
+
+           (cond (
+		 (hasmove? te sl currplayer)
+		    (domove currplayer human te sl wl)
+		 )
+		 (T 
+		    (cond (
+			  (eq? currplayer 'W)  ; WHITES MOVE
+			     (print "W has no moves - goto player B" (standard-output))
+                          )
+			  (T
+			     (print "B has no moves - goto player W" (standard-output))
+                          )
+                    )
+		 )
+           )
+      )   ;{DO LOOP}
+
+      (showwinner te)
+      (queryuser)
+
+   )
+)
+
+(define (arealist) 
+   '((1 2 3 3 3 3 2 1)
+     (2 4 5 5 5 5 4 2)
+     (3 5 6 6 6 6 5 3)
+     (3 5 6 - - 6 5 3)
+     (3 5 6 - - 6 5 3)
+     (3 5 6 6 6 6 5 3)
+     (2 4 5 5 5 5 4 2)
+     (1 2 3 3 3 3 2 1)))
+	  
+
+(define (showwinner brd)
+   (cond
+      ((> (quantity 'W brd) (quantity 'B brd)) (print "White wins!" (standard-output)))
+      (T (print "Black wins!" (standard-output)))
+   ))
+
+(define (queryuser)
+   (block
+      (write-line (standard-output) "Relevant areas of board: ")
+      (sb (arealist))
+      (write-line (standard-output) "Please enter a number (1-6) corresponding to an")
+      (write-line (standard-output) "area of the board I should consider more vital")
+      (force-output (standard-output))
+      (set areanum (read-refusing-eof (standard-input)))
+      (newline (standard-output))
+      (write-line (standard-output) "Please enter degree to which this area is vital")
+      (write-line (standard-output) "(1-10), 10 being the largest degree.")
+      (force-output (standard-output))
+      (set degree (read-refusing-eof (standard-input)))
+      (cond
+	 ((equal? areanum '1) (updatewts wl (areaone) 
+                  (+ degree (retpiece (caar (areaone)) (cadar (areaone)) wl))) )
+	 ((equal? areanum '2) (updatewts wl (areatwo) 
+		  (+ degree (retpiece (caar (areatwo)) (cadar (areatwo)) wl))) )
+	 ((equal? areanum '3) (updatewts wl (areathree) 
+		  (+ degree (retpiece (caar (areathree)) (cadar (areathree)) wl))) )
+         ((equal? areanum '4) (updatewts wl (areafour) 
+		  (+ degree (retpiece (caar (areafour)) (cadar (areafour)) wl))) )
+	 ((equal? areanum '5) (updatewts wl (areafive) 
+		  (+ degree (retpiece (caar (areafive)) (cadar (areafive)) wl))) )
+	 (T (updatewts wl (areasix) 
+		  (+ degree (retpiece (caar (areasix)) (cadar (areasix)) wl))) )
+      )
+      (print "Is that all? (y/n)" (standard-output))
+      (force-output (standard-output))
+      (set ans2 (read-refusing-eof (standard-input)))
+      (cond ((eq? ans2 'y) (main))
+	    (T (queryuser)))
+   ))
+
+
+   
+      
+(define (humanmove player brd)
+   (block
+      (force-output (standard-output))
+      (print "ENTER ROW  " (standard-output))
+      (force-output (standard-output))
+      (set xinput (read-refusing-eof (standard-input)))
+      (print "ENTER COLUMN  " (standard-output))
+      (force-output (standard-output))
+      (set yinput (read-refusing-eof (standard-input)))
+      (cond
+	 ((legalmove? xinput yinput brd player)
+	    (move player xinput yinput brd))
+         (T (block
+	       (print "Illegal move " (standard-output))
+	       (newline (standard-output))
+	       (humanmove player brd)
+            )) 
+      )
+   )
+) 
+
+(define (quantity mem lis)
+   (cond
+      ((null? lis) '0)
+      ((list? lis) (add (quantity mem (car lis)) (quantity mem (cdr lis)) ))
+      ((eq? lis mem) '1)
+      (T '0)))
+
+
+(define (retmoves brd spaceslist player) 
+   (cond
+      ((null? spaceslist) NIL)
+      ((legalmove? (caar spaceslist) (cadar spaceslist) brd player)
+	 (cons (car spaceslist) (retmoves brd (cdr spaceslist) player)  ))
+      (T (retmoves brd (cdr spaceslist) player) )
+   ))
+
+
+(define (retbestmove weightlist legallist)
+    (cond
+       ((null? (cadr legallist)) (car legallist))
+       ( (>= (sef weightlist (cadr legallist)) (sef weightlist (car legallist)) )
+              (cond ((null? (cadr legallist)) 
+		       (car legallist) )
+		    (T (retbestmove weightlist (cdr legallist)) ) 
+                    )
+              )
+       (T (retbestmove weightlist (del alikeq? (cadr legallist) legallist)))
+   ))
+
+
+(define (sef weightlist amove)
+   (cond
+      ((null? amove) '0)
+      (T (retpiece (car amove) (cadr amove) weightlist) )
+   ))
+
+(define (weightslist)
+   '((1 1 1 1 1 1 1 1) (1 1 1 1 1 1 1 1) (1 1 1 1 1 1 1 1) (1 1 1 1 1 1 1 1)   
+     (1 1 1 1 1 1 1 1) (1 1 1 1 1 1 1 1) (1 1 1 1 1 1 1 1) (1 1 1 1 1 1 1 1)))
+
+(define (areaone)
+   '((1 1) (1 8) (8 1) (8 8)))
+
+(define (areatwo)
+   '((1 2) (1 7) (2 1) (2 8) (7 1) (7 8) (8 2) (8 7)))
+
+(define (areathree)
+   '((1 3) (1 4) (1 5) (1 6)
+     (3 1) (4 1) (5 1) (6 1)
+     (3 8) (4 8) (5 8) (6 8)
+     (8 3) (8 4) (8 5) (8 6)))
+
+(define (areafour)
+   '((2 2) (2 7) (7 2) (7 7)))
+
+(define (areafive)
+   '((2 3) (2 4) (2 5) (2 6)
+     (3 2) (4 2) (5 2) (6 2)
+     (3 7) (4 7) (5 7) (6 7)
+     (7 3) (7 4) (7 5) (7 6)))
+
+(define (areasix)
+   '((3 3) (3 4) (3 5) (3 6)
+     (4 3) (5 3) (4 6) (5 6)
+     (6 3) (6 4) (6 5) (6 6)))
+
+(define (putweight row col lis value)
+   (set wl (replace (replace value col (nth wl (- row '1)) ) row wl)))
+
+(define (updatewts weightslist arealist value)
+   (cond
+      ((null? arealist) weightslist)
+      (T (updatewts (putweight (caar arealist) (cadar arealist) weightslist value) 
+		    (cdr arealist) value)) 
+   ))
+
+
